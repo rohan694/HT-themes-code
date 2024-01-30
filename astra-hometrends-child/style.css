@@ -1,0 +1,245 @@
+/**
+Theme Name: Astra HomeTrends
+Author: HomeTrends
+Author URI: https://hometrends.one/
+Description: Owned by hometrends.
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: astra-hometrends
+Template: astra
+*/
+
+
+/* Shop Page  */
+.wp-loop-rating-wishlist {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.wp-loop-rating-wishlist .yith-wcwl-add-to-wishlist {
+    margin: 0;
+}
+
+.wp-loop-rating-wishlist .yith-wcwl-add-button {
+    padding: 0;
+}
+
+.wp-loop-rating-wishlist .yith-wcwl-add-button a {
+    margin: 0 !important;
+    border: 0;
+    background: transparent;
+}
+
+.wp-loop-rating-wishlist .yith-wcwl-add-button.with-dropdown a {
+    align-items: center;
+    flex-direction: row-reverse;
+    padding: 0 !important;
+}
+
+.wp-loop-rating-wishlist .yith-wcwl-add-button i {
+    color: var(--ast-global-color-0);
+    font-size: 20px;
+}
+
+.woocommerce .star-rating {
+    color: #DC9713;
+}
+
+.woocommerce ul.products li.product .price {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.woocommerce ul.products li.product .price ins {
+    color: #C5283D;
+}
+
+.yith-wcwl-popup-content .show-tab[data-tab="create"] {
+    display: none;
+}
+
+.form-row.form-row-wide .wishlist-select option[value="new"],
+.form-row.form-row-wide .wishlist-select option[value="737"] {
+    display: none;
+}
+
+#yith-wcwl-form .wishlist_manage_table .wishlist-title .show-title-form {
+    display: none;
+}
+
+.woocommerce ul.products li.product {
+    border: 1px solid #E4E4E4;
+    border-radius: 10px;
+    height: fit-content;
+}
+
+.woocommerce ul.products li.product .cart-btn {
+    float: right;
+    margin: 0;
+    padding: 0;
+    width: fit-content;
+}
+
+.woocommerce ul.products li.product .cart-btn img {
+    width: 38px;
+    height: 36px !important;
+    object-fit: none !important;
+    margin: 0;
+    padding: 0;
+}
+
+.ast-shop-load-more {
+    background: var(--ast-global-color-0);
+    color: #fff;
+    max-width: 390px;
+    width: 390px;
+    border-radius: 30px;
+    border: 0;
+}
+
+
+/* Single Product Page */
+
+.single_add_to_cart_button {
+    margin: 0 !important;
+}
+
+.single-product .yith-wcwl-add-button.with-dropdown {
+    padding: 0
+}
+
+.single-product .yith-wcwl-add-button.with-dropdown a {
+    display: flex;
+    padding: 1.5% 30% 1.5% 3%;
+}
+
+
+.single-product .yith-wcwl-add-button.with-dropdown a i {
+    margin-right: auto;
+    font-size: 24px;
+}
+
+.woocommerce div.product .product_meta {
+    border-top: 0 !important;
+}
+
+.single-product .posted_in a {
+    color: #707070;
+}
+
+.single-product .product_meta>span:last-child {
+    display: none !important;
+}
+
+.ast-single-tab>* {
+    border: 0 !important;
+}
+
+/**
+
+**/
+.hometrendsone-related-prod #related_product_slider {
+    display: flex !important;
+}
+
+.hometrendsone-related-prod .swiper-button-next:after {
+    font-size: 20px;
+    color: #155252;
+}
+
+.hometrendsone-related-prod .swiper-button-prev:after {
+    font-size: 20px;
+    color: #155252;
+}
+
+.hometrendsone-related-prod .swiper-button-next {
+    right: 50px;
+    left: auto;
+    background-color: #ffff;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.hometrendsone-related-prod .swiper-button-prev {
+    background-color: #ffff;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.hometrends-container-2 {
+    background-color: #F2F2F2;
+}
+
+.hometrendsone-related-prod .swiper-slide {
+    background-color: #fff;
+}
+
+.homeone-child-stick .woocommerce-Price-amount.amount {
+    font-size: 16px !important;
+    font-weight: 500;
+    padding-right: 50px !important;
+}
+
+.homeone-child-stick .top-wishlist a {
+    margin-bottom: 0px !important;
+}
+
+.homeone-child-stick .menu-click.wishlist_setup {
+    width: 120px !important;
+}
+
+.homeone-child-stick .menu-click .yith-wcwl-icon {
+    padding: 8px;
+    margin-right: 0px !important;
+    border-radius: 50%;
+    border: 1.5px solid #155252;
+}
+
+.homeone-child-stick .fa.fa-heart-o:before {
+    color: #155252;
+}
+
+.homeone-child-stick .ast-sticky-add-to-cart-action-price.price {
+    padding: 0px !important;
+}
+.homeone-child-stick .single_add_to_cart_button {
+    padding: 15px 11px 15px 30px !important;
+}
+.homeone-child-stick .cont {
+    display: none !important;
+}
+.homeone-child-stick span.yith-wcwl-items-count i{
+    color: #C5283D !important;
+}
+.homeone-child-stick .ast-sticky-add-to-cart-action-price del {
+    font-size: 16px !important;
+    padding-top: 5px !important;
+}
+.homeone-stickty-scroll-to{
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    font-size: 12px;
+    margin: 0;
+}
+.homeone-sticky-rating-brand{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.homeone-sticky-rating-brand img{
+    max-height:20px !important;
+}
+.homeone-sticky-content .ast-sticky-add-to-cart-title{
+    padding: 0 !important;
+}
+.hmo-rate-block{
+    display: flex;
+    align-items: center;
+}
