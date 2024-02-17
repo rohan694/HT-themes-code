@@ -1,0 +1,224 @@
+.hometrends-parent-tabs ul,
+.hometrends-child-tabs ul {
+    display: flex;
+    gap: 10px;
+    list-style-type: none;
+    flex-wrap: wrap;
+}
+
+.hometrends-parent-tabs ul li a {
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 40px;
+}
+
+.hometrends-parent-tabs ul li.active {
+    background-color: aquamarine;
+    color: #fff;
+    border-radius: 40px;
+}
+
+.hometrends-child-tabs ul li a {
+    padding: 5px;
+    border: 1px solid #000;
+    border-radius: 40px;
+    font-size: 12px;
+}
+
+.hometrends-child-tabs ul li.active {
+    background-color: aquamarine;
+    color: #fff;
+    border-radius: 40px;
+}
+
+.hometrends-child-tabs {
+    margin-top: 30px;
+}
+
+.hometrends-tabs-content {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-height: 300px;
+    position: relative;
+}
+
+.hometrends-tabs-content .hometrends-prod-item {
+    max-width: calc(100%/4 - 10px);
+    background-color: aquamarine;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.hometrends-prod-item figure {
+    position: relative;
+    overflow: hidden;
+}
+
+.hometrends-prod-item figcaption {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.hometrends-prod-item figure:hover figcaption {
+    opacity: 1;
+}
+
+
+.overlay {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: rgba(252, 251, 251, 0.05);
+}
+
+.overlay__inner {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.overlay__content {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.spinner {
+    width: 75px;
+    height: 75px;
+    display: inline-block;
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.05);
+    border-top-color: #000;
+    animation: spin 1s infinite linear;
+    border-radius: 100%;
+    border-style: solid;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+.hometrends-popup-wrap .popup {
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+    text-align: center;
+
+    .popup__content {
+        width: 90%;
+        overflow: auto;
+        padding: 16px;
+        background: white;
+        color: black;
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-sizing: border-box;
+        border-radius: 20px;
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            width: 20px;
+            display: block;
+
+            svg {
+                cursor: pointer;
+                transform: rotate(180deg);
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .hometrends-parent-tabs {
+        display: none;
+    }
+
+    .homeone-mbl-dropdown {
+        display: block !important;
+    }
+}
+.homeone-mbl-dropdown svg {
+    position: absolute;
+    right: 16px;
+  }
+.homeone-mbl-dropdown button {
+    background: #155252;
+    color: white;
+    margin: 0px;
+    padding: 5px 30px;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.homeone-mbl-dropdown {
+    display: none;
+}
+
+.popup__content {
+    z-index: 9999;
+}
+
+.homeone-cats-popup-selectbox {
+    list-style-type: none;
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.homeone-cats-popup-selectbox input[type="radio"] {
+    width: 16px;
+    height: 16px;
+}
+
+.homeone-cats-popup-selectbox li a {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    color: #155252;
+    color: #155252;
+    font-family: Lato;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 30px;
+}
