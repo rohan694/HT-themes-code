@@ -25,9 +25,7 @@ function child_enqueue_styles()
   if (is_product()) {
     wp_enqueue_style('swiper', get_stylesheet_directory_uri() . '/assets/css/swiper.css');
     wp_enqueue_script('swiper', get_stylesheet_directory_uri() . '/assets/js/swiper.js', array('jquery'), CHILD_THEME_ASTRA_HOMETRENDS_VERSION, false);
-
     wp_dequeue_script('astra-sticky-add-to-cart-js');
-
   }
 
   wp_enqueue_script('hometrends-main', get_stylesheet_directory_uri() . '/assets/js/main.js', array('jquery'), CHILD_THEME_ASTRA_HOMETRENDS_VERSION, true);
@@ -76,6 +74,37 @@ function disable_plugin_update_notifications($transient)
   return $transient;
 }
 add_filter('site_transient_update_plugins', 'disable_plugin_update_notifications');
+
+//wishlist add to card with links - Albert
+function register_custom_query_vars( $vars ) {
+    $vars[] = 'custom_add_to_wishlist';
+    $vars[] = 'custom_remove_from_wishlist';
+    return $vars;
+}
+add_filter( 'query_vars', 'register_custom_query_vars' );
+
+function process_wishlist_action() {
+    $product_id_add = get_query_var('custom_add_to_wishlist', false);
+    $product_id_remove = get_query_var('custom_remove_from_wishlist', false);
+
+    if ($product_id_add) {
+        // Assuming YITH_WCWL()->add() is a valid method to add the product.
+        YITH_WCWL()->add($product_id_add);
+        // Redirect back to the product page or wishlist page to avoid re-processing upon refresh
+        wp_redirect(remove_query_arg('custom_add_to_wishlist'));
+        exit;
+    }
+
+    if ($product_id_remove) {
+        // Assuming YITH_WCWL()->remove() is a valid method to remove the product.
+        YITH_WCWL()->remove($product_id_remove);
+        // Redirect back to the product page or wishlist page to avoid re-processing upon refresh
+        wp_redirect(remove_query_arg('custom_remove_from_wishlist'));
+        exit;
+    }
+}
+add_action( 'template_redirect', 'process_wishlist_action' );
+
 
 
 // Wishlist functionality 
@@ -1031,7 +1060,35 @@ function single_product_sticky_add_to_cart_child()
   if (is_product() && astra_get_option('single-product-sticky-add-to-cart')) {
     /** @psalm-suppress InvalidGlobal */ // phpcs:ignore Generic.Commenting.DocComment.MissingShort
     global $post;
-
+    if (is_product()) {
+      global $product;
+  
+      $array_classs = wc_get_product_class('ast-woocommerce-container', $product->get_ID());
+  
+      $array_classs__ = implode(' ', $array_classs);
+  
+    ?>
+      <script>
+        jQuery(document).ready(function($) {
+  
+          $("main").contents().unwrap();
+          $(".ast-woocommerce-container").wrap('<div class="hometrends-container-1"></div>');
+  
+          var container_2 = $("<div>").attr("class", "hometrends-container-2").appendTo("#primary");
+          $("#products-slider").appendTo(container_2).wrap("<div class='ast-woocommerce-container'></div>");
+  
+          var container_3 = $("<div>").attr("class", "hometrends-container-3").appendTo("#primary");
+          $(".ast-woocommerce-accordion").appendTo(container_3).wrap("<div class='<?php echo $array_classs__; ?>'></div>");
+  
+          var container_4 = $("<div>").attr("class", "hometrends-container-4").appendTo("#primary");
+          $("section.related.products:not([id])").appendTo(container_4).wrap("<div class='ast-woocommerce-container'></div>");
+        });
+      </script>
+  
+  
+  <?php
+    }
+  
     $product          = wc_get_product($post->ID);
     $sticky_position  = astra_get_option('single-product-sticky-add-to-cart-position');
     $add_to_cart_ajax = astra_get_option('single-product-ajax-add-to-cart');
@@ -1054,7 +1111,7 @@ function single_product_sticky_add_to_cart_child()
       echo '<div class="ast-sticky-add-to-cart-title-wrap">';
       // sticky media product image
       echo '<div class="homeone-sticky-media">';
-      echo wp_kses_post(woocommerce_get_product_thumbnail());
+      echo wp_kses_post($product->get_image());
       echo '</div>';
       // sticky content data
       echo '<div class="homeone-sticky-content">';
@@ -1063,8 +1120,8 @@ function single_product_sticky_add_to_cart_child()
 
       echo '<div class="homeone-sticky-rating-brand">';
 
-      $average_rating = get_post_meta(get_the_ID(), '_wc_average_rating', true);
-      $total_reviews = get_post_meta(get_the_ID(), '_wc_review_count', true);
+      $average_rating = get_post_meta($product->get_ID(), '_wc_average_rating', true);
+      $total_reviews = get_post_meta($product->get_ID(), '_wc_review_count', true);
       if ($average_rating) {
         echo '<div class="hmo-rate-block">';
         echo wc_get_rating_html($average_rating, $total_reviews);
@@ -1072,7 +1129,7 @@ function single_product_sticky_add_to_cart_child()
         echo '</div>';
       }
 
-      $brands = wp_get_post_terms(get_the_ID(), 'product_brand');
+      $brands = wp_get_post_terms($product->get_ID(), 'product_brand');
       if ($brands)
         $brand = $brands[0];
       if (!empty($brand)) {
@@ -1106,12 +1163,9 @@ function single_product_sticky_add_to_cart_child()
         /** @psalm-suppress PossiblyFalseReference   */ // phpcs:ignore Generic.Commenting.DocComment.MissingShort
         echo '<span class="ast-sticky-add-to-cart-action-price price">' . wp_kses_post($product->get_price_html()) . '</span>';
         /** @psalm-suppress PossiblyFalseReference   */ // phpcs:ignore Generic.Commenting.DocComment.MissingShort
-        echo '<div class="menu-click wishlist_setup">
-              <div class="top-wishlist">
-                      <a class="text-skin wishlist-icon">
-                        ' . do_shortcode("[yith_wcwl_items_count]") . '
-                      </a>
-              </div>
+       
+        echo '<div class="menu-click wishlist_setup homeone-top-wish">
+              ' . do_shortcode("[yith_wcwl_add_to_wishlist]") . '
             </div>';
         if ($add_to_cart_ajax) {
           echo '<div id="sticky-add-to-cart">';
@@ -1146,17 +1200,15 @@ function single_product_sticky_add_to_cart_child()
   if (is_product()) {
     global $product;
 
-    $array_classs = wc_get_product_class('ast-woocommerce-container', $product->get_ID() );
+    $array_classs = wc_get_product_class('ast-woocommerce-container', $product->get_ID());
 
-    $array_classs__ = implode(' ',$array_classs);
+    $array_classs__ = implode(' ', $array_classs);
 
   ?>
     <script>
       jQuery(document).ready(function($) {
 
-
         $("main").contents().unwrap();
-
         $(".ast-woocommerce-container").wrap('<div class="hometrends-container-1"></div>');
 
         var container_2 = $("<div>").attr("class", "hometrends-container-2").appendTo("#primary");
@@ -1167,8 +1219,6 @@ function single_product_sticky_add_to_cart_child()
 
         var container_4 = $("<div>").attr("class", "hometrends-container-4").appendTo("#primary");
         $("section.related.products:not([id])").appendTo(container_4).wrap("<div class='ast-woocommerce-container'></div>");
-
-
       });
     </script>
 
