@@ -553,7 +553,216 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 							$wishlistold = $wpdb->get_results("SELECT * FROM ht3_yith_wcwl_wishlist WHERE (wishlist_id = '".$wishlist_ind."' AND product_id = '".$item->get_product_id()."')");
 							?> 
 							<?php if(!empty($wishlistold)){ if($wishlistold[0]->wishlist_name == 'Kinderzimmer'){ 'selected'; } }  ?>
-								<select  class="change_wishlist_select<?php echo $wishlist['id'] ?> change-wishlists selectBox" product_id="<?php echo $item->get_product_id();  ?>" wishlist_id="<?php echo $wishlist['id'] ?>">
+
+						
+    <style data-bmid="a9a13ab3">
+
+        
+                    
+.wishlist-select-dropdown-list{
+	position: absolute;
+	background: white;
+	margin: 0;
+	top: 40px;
+	left: 0px;
+	opacity: 1;
+	z-index: 10;
+	border: 2px solid black;
+	width: 300px;
+	border-radius: 20px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	border-top: none;
+	
+}
+.wishlist-select-dropdown-list > li{
+	color: black  !important;
+}
+  .custom-select-for-wishlist {
+	position: relative;
+    width: 303px;
+    font-size: 10px !important;
+    font-family: Lato !important;
+    font-weight: 500 !important;
+    line-height: 12px;
+    word-wrap: break-word;
+    color: #155252;
+  }
+
+  .custom-select-for-wishlist img {
+	/* float: left; */
+	left: 0;
+	width: 12px;
+	height: 12px;
+  }
+
+  .custom-select-for-wishlist > font >font>div> ul{
+	list-style-type: none;
+	padding: 0; /* Optional: Remove default padding */
+	margin: 0;
+	color: hsla(0, 0%, 0%, 0.5);
+	margin-top: 15px;
+  }
+
+  .custom-select-for-wishlist > font >font>div> ul>li{
+	display: flex;
+	align-items: center;
+	margin: 10px;
+  }
+
+  .custom-select-for-wishlist > font >font>div> ul>li>font{
+	margin-left: 10px;
+	
+  }
+
+  .wishlist-select-dropdown-button {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	
+	padding: 10px;
+	background-color: white;
+	border-top: 2px solid black;
+	border-left: 2px solid black;
+	border-right: 2px solid black;
+	border-bottom: 2px solid black;
+	border-bottom-top-radius: 20px;
+	border-bottom-right-radius: 20px;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	cursor: pointer;
+	/* border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0; */
+	/* border-bottom: none; */
+  }
+
+  .options-list {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	background-color: #fff;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: none;
+	width: 100%;
+	max-height: 200px; /* Adjust the max-height as needed */
+	overflow-y: auto;
+  }
+
+  .options-list li {
+	padding: 10px;
+	cursor: pointer;
+  }
+
+  .options-list li:hover {
+	background-color: #f1f1f1;
+  }
+  
+</style>
+
+
+<div class="custom-select-for-wishlist">
+<div class="wishlist-select-dropdown-button" onclick="toggleOptions(<?php echo $wishlist['id'] ?>,  <?php echo  $item->get_product_id() ?>)">
+    <?php if(!empty($wishlistold)): ?>
+      <span id="selectedOption<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>">
+		<img src="https://hometrends.one/wp-content/uploads/2024/02/compass-2-line-2.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+	  <?php echo $wishlistold[0]->wishlist_name; ?></span>
+    <?php else: ?>
+      <span id="selectedOption<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>">Select Wishlist</span>
+    <?php endif; ?>
+    <span>&#9660;</span>
+  </div>
+  <div>
+  <ul class="wishlist-select-dropdown-list" style="display:none" class="options-list" id="optionsList<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>"  product_id="<?php echo $item->get_product_id();  ?>" wishlist_id="<?php echo $wishlist['id'] ?>">
+    <li onclick="selectOption('Select Wishlist', <?php echo $wishlist['id'] ?>,  <?php echo  $item->get_product_id() ?>)" class="default-option" >Select Wishlist</li>
+    <li onclick="selectOption('Decor', <?php echo $wishlist['id'] ?>,  <?php echo  $item->get_product_id() ?>)" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Decor') echo 'class="selected"'; ?>>
+		<img src="https://hometrends.one/wp-content/uploads/2024/02/compass-2-line-2.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+	Decor</li>
+    <li onclick="selectOption('Wohnzimmer', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> )" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Wohnzimmer') echo 'class="selected"'; ?>>
+		<img src="https://hometrends.one/wp-content/uploads/2024/02/compass-2-line-2.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+	Wohnzimmer</li>
+    <li onclick="selectOption('Badezimmer', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> )" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Badezimmer') echo 'class="selected"'; ?>>
+		<img src="https://hometrends.one/wp-content/uploads/2024/02/compass-2-line-2.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+	Badezimmer</li>
+    <li onclick="selectOption('Kinderzimmer', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> )" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Kinderzimmer') echo 'class="selected"'; ?>>
+		<img src="https://hometrends.one/wp-content/uploads/2024/02/compass-2-line-2.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+	Kinderzimmer</li>
+    <li onclick="selectOption('Schlafzimmer', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> )" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Schlafzimmer') echo 'class="selected"'; ?>>
+		<img src="https://hometrends.one/wp-content/uploads/2024/02/compass-2-line-2.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+	Schlafzimmer</li>
+    <li onclick="selectOption('Draußen', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> )" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Draußen') echo 'class="selected"'; ?>>
+		<img src="https://hometrends.one/wp-content/uploads/2024/02/compass-2-line-2.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+	Draußen</li>
+    <li onclick="selectOption('Küche', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> )" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Küche') echo 'class="selected"'; ?>>
+		<img src="https://hometrends.one/wp-content/uploads/2024/02/compass-2-line-2.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+	Küche</li>
+  </ul>
+	</div>
+</div>
+<!-- <div class="success_msg" style="display:none;">Success Message</div>
+<div class="error_msg" style="display:none;">Error Message</div> -->
+
+<script type="text/javascript">
+  function toggleOptions(wishlistId, product_id) {
+    var optionsList = document.getElementById("optionsList" + wishlistId+"#"+ product_id);
+    // optionsList.style.display = (!optionsList.style.display || optionsList.style.display === "block") ? "none" : "block";
+
+	if(!optionsList.style.display || optionsList.style.display === "block"){
+		optionsList.style.display = "none";
+		optionsList.style.borderBottomLeftRadius = 0;
+		optionsList.style.borderBottomRightRadius = 0;
+		optionsList.style.borderBottom = "none";  
+	} else{
+		optionsList.style.display = "block";
+		optionsList.style.borderBottomLeftRadius = "20px";
+		optionsList.style.borderBottomRightRadius = "20px";
+		optionsList.style.borderBottom = "2px solid black";  
+	}
+  }
+
+  function selectOption(option, wishlistId, product_id) {
+    var selectedOption = document.getElementById("selectedOption" + wishlistId+"#"+product_id);
+    selectedOption.innerHTML = '<img src="https://hometrends.one/wp-content/uploads/2024/02/compass-2-line-2.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">'
+								+option;
+    toggleOptions(wishlistId, product_id);
+
+    // Additional functionality when an option is selected
+    // You can replace this with your logic to track changes
+    console.log("Selected wishlist " + wishlistId + ": " + option + " for product id "+product_id);
+
+    // If needed, update the value in the hidden input field
+    // document.getElementById("hiddenInput" + wishlistId).value = option;
+
+    // You can trigger your AJAX call here using the selected option and wishlistId
+	var currentwishlist = option
+	// var product_id = jQuery(this).parent().attr('product_id');
+	var user_id = <?php echo get_current_user_id(); ?>;
+	// var wishlist_id = jQuery(this).parent().attr('wishlist_id');
+	jQuery.ajax({
+		url: "<?php echo admin_url( 'admin-ajax.php' ); ?>",
+		type:"POST",
+		dataType:"type",
+		data: {
+			action:'change_wishlist_selected',
+			wishlist:currentwishlist,
+			product_id:product_id,
+			user_id:user_id,
+			wishlist_id:wishlistId,
+	},   success: function(response){
+		jQuery(".success_msg").css("display","block");
+		}, error: function(data){
+			jQuery(".error_msg").css("display","block");      }
+	});
+
+    // Show success or error message based on the AJAX response
+    // document.querySelector(".success_msg").style.display = "block"; // or hide the error_msg
+    // document.querySelector(".error_msg").style.display = "block"; // or hide the success_msg
+  }
+</script>
+	
+							<!-- <select  class="change_wishlist_select<?php echo $wishlist['id'] ?> change-wishlists selectBox" product_id="<?php echo $item->get_product_id();  ?>" wishlist_id="<?php echo $wishlist['id'] ?>">
 									<option value="Select Wishlist">Select Wishlist</option>
 									<option value="Decor" <?php if(!empty($wishlistold)){ if($wishlistold[0]->wishlist_name == 'Decor'){ echo 'selected'; } } ?>>Decor</option>
 									<option value="Wohnzimmer" <?php if(!empty($wishlistold)){ if($wishlistold[0]->wishlist_name == 'Wohnzimmer'){ echo 'selected'; } } ?>>Wohnzimmer</option>
@@ -588,7 +797,7 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 										   });
 										  });
 										});
-										</script>
+										</script> -->
 							<?php if ( $move_to_another_wishlist && $available_multi_wishlist && count( $users_wishlists ) > 2 ) : ?>
 								<?php if ( 'select' === $move_to_another_wishlist_type ) : ?>
 
