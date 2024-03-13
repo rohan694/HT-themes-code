@@ -587,6 +587,12 @@ if ( ! defined( 'YITH_WCWL' ) ) {
     line-height: 12px;
     word-wrap: break-word;
     color: #155252;
+
+	display: inline-flex;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 24px;
   }
 
   .custom-select-for-wishlist img {
@@ -608,6 +614,11 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 	display: flex;
 	align-items: center;
 	margin: 10px;
+
+	justify-content: center;
+	align-items: center;
+	gap: 60px;
+
   }
 
   .custom-select-for-wishlist > font >font>div> ul>li>font{
@@ -619,7 +630,6 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	
 	padding: 10px;
 	background-color: white;
 	border-top: 2px solid black;
