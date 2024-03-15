@@ -161,9 +161,15 @@ function wishlist_add_short()
     z-index: 99;
 }
 .wishlist_table .product-add-to-cart a.button {
-        padding: 6px 17px 9px !important;
-        width: 100%;
-        max-width: 196px;
+  width: 80%;
+  display: flex !important;
+  padding: 6px 12px !important;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 30px;
+  border: 1px solid #155252 !important;
+  background: #155252;
 }
 a.btn.menu-click {
         color: #000;
@@ -466,28 +472,29 @@ table.wishlist_table tr td.product-remove {
 }
 
 table.wishlist_table tr>td.product-thumbnail {
-  width: 25% !important;
-  max-width: 25%;
+  width: 20% !important;
+  max-width: 20%;
   position: absolute;
   left: 0;
 }
 
 table.wishlist_table tr>td.product-name {
-  width: 75%;
-  max-width: 75%;
+  width: 80%;
+  max-width: 80%;
   padding-right: 30px !important;
 }
 
 table.wishlist_table tr>td.product-price {
-  width: 75% !important;
+  width: 80% !important;
   text-align: left;
 }
 
 
 table.wishlist_table tr>td.product-add-to-cart {
-  width: 75% !important;
+  width: 80% !important;
   max-width: 100% !important;
   text-align: left;
+  align-items: center;
 }
 
 
@@ -509,13 +516,29 @@ table.wishlist_table tr td {
   text-decoration: none !important;
 }
 
-table.wishlist_table tr>td.product-add-to-cart a {
-  display: block !important;
-  width: 121px;
-  margin-left: 0 !important;
-  margin-top: 10px !important;
-}
+.wishlist_table .product-add-to-cart .search_for_now_wishlist_container{
+  width: 80%;
+  display: flex !important;
+  padding: 6px 12px !important;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 30px;
+  border: 1px solid #155252 !important;
+  background: #155252;
 
+  color: white;
+  font-size: 10px;
+  font-family: Lato;
+  font-weight: 500;
+  line-height: 12px;
+  word-wrap: break-word;
+  margin: 0px !important;
+}
+.wishlist_table .product-add-to-cart .search_for_now_wishlist_container:hover{
+  color: #155259 !important;
+  background: white;
+}
 .cont {
   position: absolute;
   top: 0;

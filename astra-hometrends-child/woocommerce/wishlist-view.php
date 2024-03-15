@@ -45,13 +45,13 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 	exit;
 } // Exit if accessed directly
 ?>
-
+    <link rel="stylesheet" href="https://interiortrends.de/wishlist-styles.css" />
 <!-- WISHLIST TABLE -->
 <table
 	class="shop_table cart wishlist_table wishlist_view traditional responsive <?php echo $no_interactions ? 'no-interactions' : ''; ?> <?php echo $enable_drag_n_drop ? 'sortable' : ''; ?> "
 	data-pagination="<?php echo esc_attr( $pagination ); ?>" data-per-page="<?php echo esc_attr( $per_page ); ?>" data-page="<?php echo esc_attr( $current_page ); ?>"
 	data-id="<?php echo esc_attr( $wishlist_id ); ?>" data-token="<?php echo esc_attr( $wishlist_token ); ?>">
-
+	
 	<?php $column_count = 2; ?>
 
 	<thead>
@@ -362,6 +362,7 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 								if ( $brands )
 									$brand = $brands[0];
 								if ( ! empty( $brand ) ) {
+									//https://hometrends.one/wp-content/uploads/2023/06/Ikea_HomeTrends_Logos.png
 									$thumbnail = get_brand_thumbnail_url( $brand->term_id );
 									$url = get_term_link( $brand->slug, 'product_brand' );
 									echo '<div class="ht3-brandimg"><a href="' . $url . '"><img class="woocommerce-brand-image-single" width="50" src="'. $thumbnail . '"/></a></div>';
@@ -472,6 +473,7 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 
 					<?php if ( $show_last_column ) : ?>
 						<td class="product-add-to-cart">
+
 							<?php
 							/**
 							 * DO_ACTION: yith_wcwl_table_before_product_cart
@@ -551,164 +553,66 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 							global $wpdb;
 							$wishlist_ind = $wishlist['id'];
 							$wishlistold = $wpdb->get_results("SELECT * FROM ht3_yith_wcwl_wishlist WHERE (wishlist_id = '".$wishlist_ind."' AND product_id = '".$item->get_product_id()."')");
+							$wishlist_category_images = array( 
+							"Decor" =>  "https://interiortrends.de/wp-content/uploads/2024/03/decor.svg",
+							"Wohnzimmer" =>  "https://interiortrends.de/wp-content/uploads/2024/03/Wohnzimmer.svg",
+							"Badezimmer" =>  "https://interiortrends.de/wp-content/uploads/2024/03/Badezimmer.svg",
+							"Kinderzimmer" =>  "https://interiortrends.de/wp-content/uploads/2024/03/Kinderzimmer.svg",
+							"Schlafzimmer" =>  "https://interiortrends.de/wp-content/uploads/2024/03/Schlafzimmer.svg",
+							"Draußen" =>  "https://interiortrends.de/wp-content/uploads/2024/03/Draussen.svg",
+							"Küche" =>  "https://interiortrends.de/wp-content/uploads/2024/03/Kueche.svg"
+						);
 							?> 
 							<?php if(!empty($wishlistold)){ if($wishlistold[0]->wishlist_name == 'Kinderzimmer'){ 'selected'; } }  ?>
 
+
 						
-    <style data-bmid="a9a13ab3">
-
-        
-                    
-.wishlist-select-dropdown-list{
-	position: absolute;
-	background: white;
-	margin: 0;
-	top: 40px;
-	left: 0px;
-	opacity: 1;
-	z-index: 10;
-	border: 2px solid black;
-	width: 300px;
-	border-radius: 20px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-	border-top: none;
-	
-}
-.wishlist-select-dropdown-list > li{
-	color: black  !important;
-}
-  .custom-select-for-wishlist {
-	position: relative;
-    width: 303px;
-    font-size: 10px !important;
-    font-family: Lato !important;
-    font-weight: 500 !important;
-    line-height: 12px;
-    word-wrap: break-word;
-    color: #155252;
-
-	display: inline-flex;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: 24px;
-  }
-
-  .custom-select-for-wishlist img {
-	/* float: left; */
-	left: 0;
-	width: 12px;
-	height: 12px;
-  }
-
-  .custom-select-for-wishlist > font >font>div> ul{
-	list-style-type: none;
-	padding: 0; /* Optional: Remove default padding */
-	margin: 0;
-	color: hsla(0, 0%, 0%, 0.5);
-	margin-top: 15px;
-  }
-
-  .custom-select-for-wishlist > font >font>div> ul>li{
-	display: flex;
-	align-items: center;
-	margin: 10px;
-
-	justify-content: center;
-	align-items: center;
-	gap: 60px;
-
-  }
-
-  .custom-select-for-wishlist > font >font>div> ul>li>font{
-	margin-left: 10px;
-	
-  }
-
-  .wishlist-select-dropdown-button {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 10px;
-	background-color: white;
-	border-top: 2px solid black;
-	border-left: 2px solid black;
-	border-right: 2px solid black;
-	border-bottom: 2px solid black;
-	border-bottom-top-radius: 20px;
-	border-bottom-right-radius: 20px;
-	border-top-left-radius: 20px;
-	border-top-right-radius: 20px;
-	cursor: pointer;
-	/* border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0; */
-	/* border-bottom: none; */
-  }
-
-  .options-list {
-	position: absolute;
-	top: 100%;
-	left: 0;
-	background-color: #fff;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-	list-style: none;
-	padding: 0;
-	margin: 0;
-	display: none;
-	width: 100%;
-	max-height: 200px; /* Adjust the max-height as needed */
-	overflow-y: auto;
-  }
-
-  .options-list li {
-	padding: 10px;
-	cursor: pointer;
-  }
-
-  .options-list li:hover {
-	background-color: #f1f1f1;
-  }
-  
-</style>
 
 
 <div class="custom-select-for-wishlist">
 <div class="wishlist-select-dropdown-button" onclick="toggleOptions(<?php echo $wishlist['id'] ?>,  <?php echo  $item->get_product_id() ?>)">
     <?php if(!empty($wishlistold)): ?>
       <span id="selectedOption<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>">
-		<img src="https://hometrends.one/wp-content/uploads/2024/02/compass-2-line-2.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+		<img src="<?php echo $wishlist_category_images[$wishlistold[0]->wishlist_name]; ?>" alt="category image" height="30" width="30" data-bmid="9e32187c">
 	  <?php echo $wishlistold[0]->wishlist_name; ?></span>
     <?php else: ?>
       <span id="selectedOption<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>">Select Wishlist</span>
     <?php endif; ?>
-    <span>&#9660;</span>
+	<span>
+		<img
+		src="https://interiortrends.de/wp-content/uploads/2024/03/caret.svg"
+		alt="caret svg"
+		data-bmid="9e32187c"
+		class="dropdown-caret"
+		/>
+	</span>
   </div>
   <div>
-  <ul class="wishlist-select-dropdown-list" style="display:none" class="options-list" id="optionsList<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>"  product_id="<?php echo $item->get_product_id();  ?>" wishlist_id="<?php echo $wishlist['id'] ?>">
-    <li onclick="selectOption('Select Wishlist', <?php echo $wishlist['id'] ?>,  <?php echo  $item->get_product_id() ?>)" class="default-option" >Select Wishlist</li>
-    <li onclick="selectOption('Decor', <?php echo $wishlist['id'] ?>,  <?php echo  $item->get_product_id() ?>)" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Decor') echo 'class="selected"'; ?>>
-		<img src="https://hometrends.one/wp-content/uploads/2024/02/compass-2-line-2.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+  <ul class="wishlist-select-dropdown-list underneath"  id="optionsList<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>"  product_id="<?php echo $item->get_product_id();  ?>" wishlist_id="<?php echo $wishlist['id'] ?>">
+    <li class="dropdown-option" onclick="selectOption('Select Wishlist', <?php echo $wishlist['id'] ?>,  <?php echo  $item->get_product_id() ?>,'')" class="default-option" >Zimmer auswählen</li>
+    <li class="dropdown-option" onclick="selectOption('Decor', <?php echo $wishlist['id'] ?>,  <?php echo  $item->get_product_id() ?>, '<?php echo $wishlist_category_images['Decor']; ?>')" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Decor') echo 'class="selected"'; ?>>
+		<img src="https://interiortrends.de/wp-content/uploads/2024/03/decor.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
 	Decor</li>
-    <li onclick="selectOption('Wohnzimmer', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> )" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Wohnzimmer') echo 'class="selected"'; ?>>
-		<img src="https://hometrends.one/wp-content/uploads/2024/02/compass-2-line-2.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+    <li class="dropdown-option" onclick="selectOption('Wohnzimmer', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> , '<?php echo $wishlist_category_images['Wohnzimmer']; ?>')" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Wohnzimmer') echo 'class="selected"'; ?>>
+		<img src="https://interiortrends.de/wp-content/uploads/2024/03/Wohnzimmer.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
 	Wohnzimmer</li>
-    <li onclick="selectOption('Badezimmer', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> )" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Badezimmer') echo 'class="selected"'; ?>>
-		<img src="https://hometrends.one/wp-content/uploads/2024/02/compass-2-line-2.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+    <li class="dropdown-option" onclick="selectOption('Badezimmer', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> , '<?php echo $wishlist_category_images['Badezimmer']; ?>')" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Badezimmer') echo 'class="selected"'; ?>>
+		<img src="https://interiortrends.de/wp-content/uploads/2024/03/Badezimmer.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
 	Badezimmer</li>
-    <li onclick="selectOption('Kinderzimmer', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> )" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Kinderzimmer') echo 'class="selected"'; ?>>
-		<img src="https://hometrends.one/wp-content/uploads/2024/02/compass-2-line-2.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+    <li class="dropdown-option" onclick="selectOption('Kinderzimmer', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?>, '<?php echo $wishlist_category_images['Kinderzimmer']; ?>' )" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Kinderzimmer') echo 'class="selected"'; ?>>
+		<img src="https://interiortrends.de/wp-content/uploads/2024/03/Kinderzimmer.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
 	Kinderzimmer</li>
-    <li onclick="selectOption('Schlafzimmer', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> )" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Schlafzimmer') echo 'class="selected"'; ?>>
-		<img src="https://hometrends.one/wp-content/uploads/2024/02/compass-2-line-2.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+    <li class="dropdown-option" onclick="selectOption('Schlafzimmer', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> , '<?php echo $wishlist_category_images['Schlafzimmer']; ?>')" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Schlafzimmer') echo 'class="selected"'; ?>>
+		<img src="https://interiortrends.de/wp-content/uploads/2024/03/Schlafzimmer.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
 	Schlafzimmer</li>
-    <li onclick="selectOption('Draußen', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> )" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Draußen') echo 'class="selected"'; ?>>
-		<img src="https://hometrends.one/wp-content/uploads/2024/02/compass-2-line-2.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+    <li class="dropdown-option" onclick="selectOption('Draußen', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?>, '<?php echo $wishlist_category_images['Draußen']; ?>' )" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Draußen') echo 'class="selected"'; ?>>
+		<img src="https://interiortrends.de/wp-content/uploads/2024/03/Draussen.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
 	Draußen</li>
-    <li onclick="selectOption('Küche', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> )" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Küche') echo 'class="selected"'; ?>>
-		<img src="https://hometrends.one/wp-content/uploads/2024/02/compass-2-line-2.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+    <li class="dropdown-option" onclick="selectOption('Küche', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> , '<?php echo $wishlist_category_images['Küche']; ?>')" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Küche') echo 'class="selected"'; ?>>
+		<img src="https://interiortrends.de/wp-content/uploads/2024/03/Kueche.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
 	Küche</li>
-  </ul>
+
+</ul>
 	</div>
 </div>
 <!-- <div class="success_msg" style="display:none;">Success Message</div>
@@ -719,22 +623,37 @@ if ( ! defined( 'YITH_WCWL' ) ) {
     var optionsList = document.getElementById("optionsList" + wishlistId+"#"+ product_id);
     // optionsList.style.display = (!optionsList.style.display || optionsList.style.display === "block") ? "none" : "block";
 
-	if(!optionsList.style.display || optionsList.style.display === "block"){
-		optionsList.style.display = "none";
-		optionsList.style.borderBottomLeftRadius = 0;
-		optionsList.style.borderBottomRightRadius = 0;
-		optionsList.style.borderBottom = "none";  
-	} else{
-		optionsList.style.display = "block";
-		optionsList.style.borderBottomLeftRadius = "20px";
-		optionsList.style.borderBottomRightRadius = "20px";
-		optionsList.style.borderBottom = "2px solid black";  
-	}
+
+	let dropdownButton = document.getElementById(
+		"selectedOption" + wishlistId + "#" + product_id
+	).parentElement;
+
+              // Use `computedStyleMap` instead of just `style` to also pick values set through css
+              let display = optionsList
+                .computedStyleMap()
+                .get("display")
+                .toString();
+              let isDisplayed = !display || display === "block";
+
+              if (isDisplayed) {
+                let height = optionsList.scrollHeight;
+                optionsList.style.setProperty("--element-height", height);
+                optionsList.classList.add("closing");
+                setTimeout(() => {
+                  optionsList.classList.remove("closing");
+                  dropdownButton.classList.remove("underneath");
+                  optionsList.classList.remove("expanded", "underneath");
+                }, 300);
+              } else {
+                optionsList.classList.add("expanded", "underneath");
+                dropdownButton.classList.add("underneath");
+              }
+
   }
 
-  function selectOption(option, wishlistId, product_id) {
+  function selectOption(option, wishlistId, product_id, imageUrl) {
     var selectedOption = document.getElementById("selectedOption" + wishlistId+"#"+product_id);
-    selectedOption.innerHTML = '<img src="https://hometrends.one/wp-content/uploads/2024/02/compass-2-line-2.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">'
+    selectedOption.innerHTML = '<img src="'+imageUrl+'" alt="category image" height="30" width="30" data-bmid="9e32187c">'
 								+option;
     toggleOptions(wishlistId, product_id);
 
@@ -877,8 +796,7 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 								 */
 								// print_r($item);
 								$met_product = get_post_meta($item->get_product_id() ,'_product_url',true); ?>
-								
-								<a href="<?php echo esc_url( $met_product ); ?>" class="remove_from_wishlistd button" title="<?php echo esc_html( apply_filters( 'yith_wcwl_remove_product_wishlist_message_title', __( 'Angebot Suchen', 'yith-woocommerce-wishlist' ) ) ); ?>"><?php esc_html_e( 'Angebot Suchen', 'yith-woocommerce-wishlist' ); ?></a>
+									<a href="<?php echo esc_url( $met_product ); ?>" class="search_for_now_wishlist_container" title="<?php echo esc_html( apply_filters( 'yith_wcwl_remove_product_wishlist_message_title', __( 'Angebot Suchen', 'yith-woocommerce-wishlist' ) ) ); ?>"><?php esc_html_e( 'Angebot Suchen', 'yith-woocommerce-wishlist' ); ?></a>
 							<?php endif; ?>
 
 							<?php
@@ -900,6 +818,7 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 							<i class="fa fa-arrows"></i>
 							<input type="hidden" name="items[<?php echo esc_attr( $item->get_product_id() ); ?>][position]" value="<?php echo esc_attr( $item->get_position() ); ?>"/>
 						</td>
+						
 					<?php endif; ?>
 				</tr>
 				<?php

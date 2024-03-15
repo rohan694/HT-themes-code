@@ -1,0 +1,188 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+
+/* Utility classes */
+.dropdown-option {
+  padding: 5px 10px ;
+  display: flex;
+  align-items: center ;
+  gap: 4px ;
+  color: #155252 !important;
+  font-family: Lato ;
+  font-size: 12px ;
+  font-style: normal ;
+  font-weight: 500 ;
+  line-height: 1 !important;
+}
+
+.dropdown-option > span:first-of-type {
+  height: 1em !important;
+  flex-grow: 1;
+  display: inline-block;
+}
+
+.dropdown-option > img {
+  height: 1em;
+  width: 1em;
+  display: inline-block;
+}
+
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+
+.custom-select-for-wishlist {
+  width: 9em;
+}
+
+.custom-select-for-wishlist > div {
+  width: 100%;
+  position: relative;
+}
+
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+
+.wishlist-select-dropdown-list {
+  border-radius: 10px;
+  border: 1px solid #155252;
+  background: #fff;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 0px;
+  left: 0px;
+  opacity: 1;
+  z-index: 10;
+  width: 100%;
+  display: none;
+  list-style: none;
+}
+
+.wishlist-select-dropdown-list > li {
+  color: #aaa;
+
+}
+
+.wishlist-select-dropdown-list.expanded {
+  display: block;
+  height: fit-content;
+  overflow: hidden;
+}
+
+.wishlist-select-dropdown-list.underneath {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  border-top: none;
+}
+
+.wishlist-select-dropdown-list.expanded > li {
+  animation: grow-dropdown-content 200ms linear 0s 1 normal forwards;
+  overflow: hidden;
+}
+
+.wishlist-select-dropdown-list.expanded.closing {
+  height: 0;
+  animation: height-to-zero 300ms linear 0s 1 normal forwards;
+}
+
+@keyframes height-to-zero {
+  to {
+    height: 0;
+  }
+
+  from {
+    height: calc(1px * var(--element-height));
+  }
+}
+
+@keyframes grow-dropdown-content {
+  0% {
+    height: 0;
+    padding: 0 10px;
+  }
+
+  10% {
+    height: 0;
+  }
+
+  20% {
+    height: 0;
+  }
+
+  50% {
+    height: 0.55em;
+  }
+
+  90% {
+    height: 1em;
+  }
+
+  100% {
+    height: unset;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+}
+
+/*  */
+/*  */
+/*  */
+
+/* ******************************************* */
+/* Dropdown button */
+/* ******************************************* */
+
+.wishlist-select-dropdown-button {
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid #155252;
+  cursor: pointer;
+  width: 100% !important;
+	
+		padding: 5px 10px ;
+  display: flex;
+  align-items: center ;
+  gap: 4px ;
+  color: #155252 !important;
+  font-family: Lato ;
+  font-size: 12px ;
+  font-style: normal ;
+  font-weight: 500 ;
+  line-height: 1 !important;
+
+}
+.wishlist-select-dropdown-button  img {
+  height: 1em;
+  width: 1em;
+  display: inline-block;
+}
+
+.wishlist-select-dropdown-button.underneath {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom: none;
+}
+
+.wishlist-select-dropdown-button .dropdown-caret {
+  transition: transform 200ms ease-in-out;
+  transform: rotate(180deg);
+}
+
+.wishlist-select-dropdown-button.underneath .dropdown-caret {
+  transform: rotate(0deg);
+}
+
+/*  */
+/*  */
+/*  */
