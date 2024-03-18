@@ -810,15 +810,27 @@ if (defined('YITH_WCWL') && !function_exists('yith_wcwl_get_items_count')) {
   function yith_wcwl_get_items_count()
   {
     ob_start();
+    $args = array(
+      'wishlist_id' => 'all',
+    );
+    if ( is_user_logged_in() ) {
+      $id              = get_current_user_id();
+      $args['user_id'] = $id;
+    } elseif ( YITH_WCWL_Session()->has_session() ) {
+      $id                 = YITH_WCWL_Session()->get_session_id();
+      $args['session_id'] = $id;
+    }
 
-    $heart_class = yith_wcwl_count_all_products() > 0 ? 'fa-heart' : 'fa-heart-o';
+    $wishlist_count_1 = YITH_WCWL_Wishlist_Factory::get_wishlist_items_count( $args );
+
+    $heart_class = $wishlist_count_1 > 0 ? 'fa-heart' : 'fa-heart-o';
 
 ?>
     <a>
       <span class="yith-wcwl-items-count count_wishlists">
         <i class="yith-wcwl-icon fa <?php echo $heart_class; ?>">
         </i>
-        <div class="cont"><?php echo esc_html(yith_wcwl_count_all_products()); ?></div>
+        <div class="cont"><?php echo esc_html($wishlist_count_1); ?></div>
       </span>
     </a>
   <?php
@@ -831,9 +843,28 @@ if (defined('YITH_WCWL') && !function_exists('yith_wcwl_get_items_count')) {
 if (defined('YITH_WCWL') && !function_exists('yith_wcwl_ajax_update_count')) {
   function yith_wcwl_ajax_update_count()
   {
-    wp_send_json(array(
-      'count' => yith_wcwl_count_all_products()
-    ));
+    // old code commented because it was not working with 
+    // wp_send_json(array(
+    //   'count' => yith_wcwl_count_all_products()
+    // ));
+  // Build args array
+
+  $args = array(
+    'wishlist_id' => 'all',
+  );
+  if ( is_user_logged_in() ) {
+    $id              = get_current_user_id();
+    $args['user_id'] = $id;
+  } elseif ( YITH_WCWL_Session()->has_session() ) {
+    $id                 = YITH_WCWL_Session()->get_session_id();
+    $args['session_id'] = $id;
+  }
+
+    // Get wishlist count from function instead of cache
+    wp_send_json( array(
+      'count' => YITH_WCWL_Wishlist_Factory::get_wishlist_items_count( $args )
+    ) );
+
   }
 
   add_action('wp_ajax_yith_wcwl_update_wishlist_count', 'yith_wcwl_ajax_update_count');
@@ -856,7 +887,9 @@ if (defined('YITH_WCWL') && !function_exists('yith_wcwl_enqueue_custom_script'))
                 $('.whilist_price_Section .whilist_price .woocommerce-Price-amount').html('<bdi>0.00 €</bdi>');
 
                 $('.yith-wcwl-items-count i').removeClass('fa-heart').addClass('fa-heart-o');
+                console.log('rohan inside added to wishlist count',0 )
               }else{
+                $('.whilist_price_Section .whilist_price .woocommerce-Price-amount').html('<bdi>0.00 €</bdi>');
                 var updatprices =   $('.totlapffsdfsfs .woocommerce-Price-amount').html();
                 $('.whilist_price_Section .whilist_price .woocommerce-Price-amount').html(updatprices);
                 $('.yith-wcwl-items-count i').removeClass('fa-heart-o').addClass('fa-heart');
@@ -1156,7 +1189,18 @@ function single_product_sticky_add_to_cart_child()
       if ($brands)
         $brand = $brands[0];
       if (!empty($brand)) {
-        $thumbnail = get_brand_thumbnail_url($brand->term_id);
+        $brand_json = json_encode($brand);
+
+        // Output the JSON string into the JavaScript console
+        echo "<script>";
+        echo "console.log('Brand Object:', " . $brand_json . ");";
+
+        $thumbnail1 = get_brand_thumbnail_url($brand->term_id);
+        echo "console.log('Brand Object:', " . $thumbnail1 . ");";
+
+        echo "</script>";
+
+        // echo "<script>console.log('".$thumbnail." Rohan image','".implode(" ", $brand)."')</script>";
         $url = get_term_link($brand->slug, 'product_brand');
         echo '<div class="ht3-brandimg"><a href="' . $url . '"><img class="woocommerce-brand-image-single" src="' . $thumbnail . '"/></a></div>';
       }
