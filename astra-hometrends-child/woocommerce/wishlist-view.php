@@ -46,6 +46,7 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 } // Exit if accessed directly
 ?>
     <link rel="stylesheet" href="https://interiortrends.de/wishlist-styles.css" />
+	<link rel="stylesheet" href="https://interiortrends.de/wishlist-css/wishlist-v2.css" />
 <!-- WISHLIST TABLE -->
 <table
 	class="shop_table cart wishlist_table wishlist_view traditional responsive <?php echo $no_interactions ? 'no-interactions' : ''; ?> <?php echo $enable_drag_n_drop ? 'sortable' : ''; ?> "
@@ -87,20 +88,20 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 		<th class="product-thumbnail"></th>
 
 		<th class="product-name">
-			<span class="nobr">
-				<?php
-				/**
-				 * APPLY_FILTERS: yith_wcwl_wishlist_view_name_heading
-				 *
-				 * Filter the heading of the column to show the product name in the wishlist table.
-				 *
-				 * @param string             $heading  Heading text
-				 * @param YITH_WCWL_Wishlist $wishlist Wishlist object
-				 *
-				 * @return string
-				 */
-				echo esc_html( apply_filters( 'yith_wcwl_wishlist_view_name_heading', __( 'Product name', 'yith-woocommerce-wishlist' ), $wishlist ) );
-				?>
+				<span class="nobr">
+					<?php
+					/**
+					 * APPLY_FILTERS: yith_wcwl_wishlist_view_name_heading
+					 *
+					 * Filter the heading of the column to show the product name in the wishlist table.
+					 *
+					 * @param string             $heading  Heading text
+					 * @param YITH_WCWL_Wishlist $wishlist Wishlist object
+					 *
+					 * @return string
+					 */
+					echo esc_html( apply_filters( 'yith_wcwl_wishlist_view_name_heading', __( 'Product name', 'yith-woocommerce-wishlist' ), $wishlist ) );
+					?>
 			</span>
 		</th>
 
@@ -296,7 +297,9 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 						?>
 
 						<a href="<?php echo esc_url( get_permalink( apply_filters( 'woocommerce_in_cart_product', $item->get_product_id() ) ) ); ?>">
-							<?php echo wp_kses_post( apply_filters( 'woocommerce_in_cartproduct_obj_title', $product->get_title(), $product ) ); ?>
+							<span class="wishlist-popup-product-title">
+								<?php echo wp_kses_post( apply_filters( 'woocommerce_in_cartproduct_obj_title', $product->get_title(), $product ) ); ?>
+							</span>
 						</a>
 
 						<?php
