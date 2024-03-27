@@ -75,6 +75,45 @@ function disable_plugin_update_notifications($transient)
 }
 add_filter('site_transient_update_plugins', 'disable_plugin_update_notifications');
 
+function custom_wp_kses_post_tags($tags, $context) {
+    if ($context === 'post') {
+        // Füge itemprop, itemscope und itemtype zu den erlaubten Attributen für h1 bis h5 hinzu
+        $heading_tags = array('h1', 'h2', 'h3', 'h4', 'h5');
+        foreach ($heading_tags as $tag) {
+            if (!isset($tags[$tag])) {
+                $tags[$tag] = array();
+            }
+            $tags[$tag]['itemprop'] = true;
+            $tags[$tag]['itemscope'] = true;
+            $tags[$tag]['itemtype'] = true;
+        }
+    }
+    return $tags;
+}
+add_filter('wp_kses_allowed_html', 'custom_wp_kses_post_tags', 10, 2);
+
+function custom_footer_new_tab_script() {
+  ?>
+  <script>
+    jQuery(document).ready(function($) {
+      $('a.single_add_to_cart_button').attr('target', '_blank');
+    });
+  </script>
+  <?php
+}
+add_action('wp_footer', 'custom_footer_new_tab_script');
+
+function add_new_tab_target_script() {
+  echo "<script>
+    jQuery(document).ready(function($) {
+      // Target buttons with a specific class and add the target attribute
+      $('a.button.product_type_external, a.cart-btn').attr('target', '_blank');
+    });
+  </script>";
+}
+add_action('wp_footer', 'add_new_tab_target_script');
+
+
 //wishlist add to card with links - Albert
 function register_custom_query_vars( $vars ) {
     $vars[] = 'custom_add_to_wishlist';
@@ -883,6 +922,7 @@ if (defined('YITH_WCWL') && !function_exists('yith_wcwl_enqueue_custom_script'))
               action: 'yith_wcwl_update_wishlist_count'
             }, function( data ) {
               $('.yith-wcwl-items-count .cont').html( data.count );
+
               if(data.count == 0){
                 $('.whilist_price_Section .whilist_price .woocommerce-Price-amount').html('<bdi>0.00 €</bdi>');
 
@@ -1185,27 +1225,31 @@ function single_product_sticky_add_to_cart_child()
         echo '</div>';
       }
 
-      $brands = wp_get_post_terms($product->get_ID(), 'product_brand');
-      if ($brands)
-        $brand = $brands[0];
-      if (!empty($brand)) {
-        $brand_json = json_encode($brand);
+     $brands = wp_get_post_terms($product->get_ID(), 'product_brand');
+if (!empty($brands)) {
+  $brand = $brands[0];
+  $brand_json = json_encode($brand);
 
-        // Output the JSON string into the JavaScript console
-        echo "<script>";
-        echo "console.log('Brand Object:', " . $brand_json . ");";
+  // Correctly formatted JavaScript for outputting brand details
+  echo "<script>";
+  echo "console.log('Brand Object:', " . $brand_json . ");";
 
-        $thumbnail1 = get_brand_thumbnail_url($brand->term_id);
-        echo "console.log('Brand Object:', " . $thumbnail1 . ");";
+  // Assuming get_brand_thumbnail_url returns the correct URL
+  $thumbnail = get_brand_thumbnail_url($brand->term_id); // Correct variable name used
+  // Ensure the string is correctly formatted for JavaScript
+  echo "console.log('Thumbnail URL:', '" . esc_js($thumbnail) . "');";
+  echo "</script>";
 
-        echo "</script>";
+  $url = get_term_link($brand->slug, 'product_brand');
 
-        // echo "<script>console.log('".$thumbnail." Rohan image','".implode(" ", $brand)."')</script>";
-        $url = get_term_link($brand->slug, 'product_brand');
-        echo '<div class="ht3-brandimg"><a href="' . $url . '"><img class="woocommerce-brand-image-single" src="' . $thumbnail . '"/></a></div>';
-      }
+  // Check for a valid URL and thumbnail URL before outputting HTML
+  if (!empty($thumbnail) && !empty($url) && !is_wp_error($url)) {
+    echo '<div class="ht3-brandimg"><a href="' . esc_url($url) . '"><img class="woocommerce-brand-image-single" src="' . esc_url($thumbnail) . '"/></a></div>';
+  }
+}
 
-      echo '</div>'; // close rating and brand
+echo '</div>'; // Ensure this closing div tag pairs with an appropriate opening tag.
+
 
       // start content scroll to
 
