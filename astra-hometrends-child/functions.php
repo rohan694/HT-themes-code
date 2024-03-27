@@ -170,10 +170,18 @@ function wishlist_add_short()
         </div>
   <div class="opabg"></div>
         <div class="menu-wishlist">
-         <div class="heading_section">
-         <h3>Wunschliste</h3>
-          <a class="btn menu-click">X
+        <div class="heading_section">
+          <div class="wishlist_heading_title">
+        Wunschliste
+        </div>
+        <div class="wishlist_popup_close_btn_container">
+        <div class="wishlist_popup_close_btn">
+
+          <a class="btn menu-click">
+          <img src="https://interiortrends.de/wishlist-css/images/cross-btn.svg">
           </a>
+          </div>
+          </div>
           </div>
       <div class="abox">
             [yith_wcwl_wishlist]
@@ -184,8 +192,51 @@ function wishlist_add_short()
     </div>
 </div>
         <style>
+.wishlist_popup_close_btn{
+  width: 42px;
+  height: 18px;
+  // left: 4px;
+  // top: 4px;
+  // position: absolute;
+}
+.wishlist_popup_close_btn img{
+  height : 100%;
+}
+
+.wishlist_popup_close_btn> a.btn.menu-click{
+  position: unset;
+}
+.wishlist_popup_close_btn_container{
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+        .wishlist_heading_title{
+          color: #155252;
+          font-size: 28px;
+          font-family: Nunito;
+          font-weight: 700;
+          line-height: 28px;
+          word-wrap: break-word;
+        }
   .wishlist-items-wrapper .woocommerce-Price-amount.amount {
+    text-align: right;
     color: #C5283D;
+    font-size: 14px;
+    font-family: Lato;
+    font-weight: 700;
+    letter-spacing: 0.14px;
+    word-wrap: break-word;
+  }
+
+  .product-price-brand-container{
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+    display: inline-flex;
+  }
+  .ht3-brandimg{
+    padding-left: 0px !important;
   }
   .opabg.open {
     content: """";
@@ -375,7 +426,7 @@ table.wishlist_table tr td.product-arrange {
 table.wishlist_table tr {
   display: flex;
   flex-wrap: wrap;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 2px #B3B3B3 solid;
   justify-content: end;
   align-items: center;
   padding-bottom: 15px;
@@ -526,6 +577,7 @@ table.wishlist_table tr>td.product-name {
 table.wishlist_table tr>td.product-price {
   width: 80% !important;
   text-align: left;
+  padding-top: 11px !important;
 }
 
 
@@ -534,15 +586,20 @@ table.wishlist_table tr>td.product-add-to-cart {
   max-width: 100% !important;
   text-align: left;
   align-items: center;
+  padding-top: 11px !important;
 }
 
 
 .heading_section {
   padding-top: 20px;
   padding-left: 20px;
-  position: relative;
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 20px;
+  // position: relative;
+  // border-bottom: 1px solid #ddd;
+  // margin-bottom: 20px;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 266px;
+  display: inline-flex;
 }
 
 table.wishlist_table tr td {

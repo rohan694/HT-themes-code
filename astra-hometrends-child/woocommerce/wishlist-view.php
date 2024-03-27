@@ -328,6 +328,7 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 
 					<?php if ( $show_price || $show_price_variations ) : ?>
 						<td class="product-price">
+							<div class="product-price-brand-container">
 							<?php
 							/**
 							 * DO_ACTION: yith_wcwl_table_before_product_price
@@ -349,6 +350,7 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 								echo wp_kses_post( $item->get_price_variation() );
 							}
 							?>
+							
 
 							<?php
 							/**
@@ -371,7 +373,7 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 									echo '<div class="ht3-brandimg"><a href="' . $url . '"><img class="woocommerce-brand-image-single" width="50" src="'. $thumbnail . '"/></a></div>';
 								}
 							?>
-							
+							</div>
 						</td>
 					<?php endif ?>
 
