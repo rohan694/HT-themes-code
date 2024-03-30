@@ -248,7 +248,9 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 								 * @return string
 								 */
 								?>
-								<a href="<?php echo esc_url( $item->get_remove_url() ); ?>" class="remove remove_from_wishlist" title="<?php echo esc_html( apply_filters( 'yith_wcwl_remove_product_wishlist_message_title', __( 'Remove this product', 'yith-woocommerce-wishlist' ) ) ); ?>">&times;</a>
+								<a href="<?php echo esc_url( $item->get_remove_url() ); ?>" class="remove remove_from_wishlist" title="<?php echo esc_html( apply_filters( 'yith_wcwl_remove_product_wishlist_message_title', __( 'Remove this product', 'yith-woocommerce-wishlist' ) ) ); ?>">
+									<img src="https://interiortrends.de/wp-content/uploads/2024/03/cross-btn2.svg">
+								</a>
 							</div>
 						</td>
 					<?php endif; ?>
@@ -576,23 +578,27 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 
 <div class="custom-select-for-wishlist">
 <div class="wishlist-select-dropdown-button" onclick="toggleOptions(<?php echo $wishlist['id'] ?>,  <?php echo  $item->get_product_id() ?>)">
-    <?php if(!empty($wishlistold)): ?>
-      <span id="selectedOption<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>">
+    <div class="selected-options-container">
+		<div class="selected-option" id="selectedOption<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>">
+	<?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name !="Select Wishlist"): ?>
 		<img src="<?php echo $wishlist_category_images[$wishlistold[0]->wishlist_name]; ?>" alt="category image" height="30" width="30" data-bmid="9e32187c">
-	  <?php echo $wishlistold[0]->wishlist_name; ?></span>
+	  <span class="selected-wiishlist-name"><?php echo $wishlistold[0]->wishlist_name; ?>
+		</span>
     <?php else: ?>
-      <span id="selectedOption<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>">Select Wishlist</span>
+      <span class="selected-wiishlist-name"  id="selectedOption<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>">Wunschliste auswählen</span>
     <?php endif; ?>
-	<span>
+	</div>
+	</div>
+	<div class="wishlist-select-button-carret-container">
 		<img
 		src="https://interiortrends.de/wp-content/uploads/2024/03/caret.svg"
 		alt="caret svg"
 		data-bmid="9e32187c"
 		class="dropdown-caret"
 		/>
-	</span>
+	</div>
   </div>
-  <div>
+  <div class="wishlist-dropdown-options">
   <ul class="wishlist-select-dropdown-list underneath"  id="optionsList<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>"  product_id="<?php echo $item->get_product_id();  ?>" wishlist_id="<?php echo $wishlist['id'] ?>">
     <li class="dropdown-option" onclick="selectOption('Select Wishlist', <?php echo $wishlist['id'] ?>,  <?php echo  $item->get_product_id() ?>,'')" class="default-option" >Zimmer auswählen</li>
     <li class="dropdown-option" onclick="selectOption('Decor', <?php echo $wishlist['id'] ?>,  <?php echo  $item->get_product_id() ?>, '<?php echo $wishlist_category_images['Decor']; ?>')" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Decor') echo 'class="selected"'; ?>>
@@ -631,7 +637,7 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 
 	let dropdownButton = document.getElementById(
 		"selectedOption" + wishlistId + "#" + product_id
-	).parentElement;
+	).parentElement.parentElement.parentElement;
 
               // Use `computedStyleMap` instead of just `style` to also pick values set through css
               let display = optionsList
@@ -658,8 +664,12 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 
   function selectOption(option, wishlistId, product_id, imageUrl) {
     var selectedOption = document.getElementById("selectedOption" + wishlistId+"#"+product_id);
-    selectedOption.innerHTML = '<img src="'+imageUrl+'" alt="category image" height="30" width="30" data-bmid="9e32187c">'
-								+option;
+	if(imageUrl){
+		selectedOption.innerHTML = '<img src="'+imageUrl+'" alt="category image" height="30" width="30">'
+									+'<span class="selected-wiishlist-name">'+option+'</span>';
+	} else {
+		selectedOption.innerHTML = '<span class="selected-wiishlist-name">'+option+'</span>';
+	}
     toggleOptions(wishlistId, product_id);
 
     // Additional functionality when an option is selected

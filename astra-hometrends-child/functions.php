@@ -309,6 +309,11 @@ a.btn.menu-click {
   top:0px;
   left: auto !important;
   z-index:9999!important;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  /* align-items: flex-start; */
+  gap: 2.5rem;
 }
 .menu-wishlist .btn {
   color: white;
@@ -584,9 +589,12 @@ table.wishlist_table tr>td.product-price {
 table.wishlist_table tr>td.product-add-to-cart {
   width: 80% !important;
   max-width: 100% !important;
-  text-align: left;
   align-items: center;
   padding-top: 11px !important;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+
 }
 
 
@@ -979,15 +987,15 @@ if (defined('YITH_WCWL') && !function_exists('yith_wcwl_enqueue_custom_script'))
               action: 'yith_wcwl_update_wishlist_count'
             }, function( data ) {
               $('.yith-wcwl-items-count .cont').html( data.count );
-
+              
               if(data.count == 0){
                 $('.whilist_price_Section .whilist_price .woocommerce-Price-amount').html('<bdi>0.00 €</bdi>');
 
                 $('.yith-wcwl-items-count i').removeClass('fa-heart').addClass('fa-heart-o');
                 console.log('rohan inside added to wishlist count',0 )
-              }else{
+              } else {
                 $('.whilist_price_Section .whilist_price .woocommerce-Price-amount').html('<bdi>0.00 €</bdi>');
-                var updatprices =   $('.totlapffsdfsfs .woocommerce-Price-amount').html();
+                var updatprices =   $('.wishlist-popup-total-price-container .wishlist-popup-total-amount').html();
                 $('.whilist_price_Section .whilist_price .woocommerce-Price-amount').html(updatprices);
                 $('.yith-wcwl-items-count i').removeClass('fa-heart-o').addClass('fa-heart');
               }
@@ -1022,7 +1030,13 @@ if (!function_exists('yith_wcwl_items_total')) {
     }
 
     if ($total) {
-      echo '<div class="box_prixcessd"><p class="totlapffsdfsfs"><b>Summe :</b> ' . wc_price($total) . '</p>
+
+      echo '<div class="box_prixcessd">
+      
+      <div class="wishlist-popup-total-price-container">
+        <div class="wishlist-popup-total-heading">Summe : </div>
+        <div class="wishlist-popup-total-amount">' . wc_price($total) . '</div>
+      </div>
           <div class="btnboxcart">
               <a class="boxWunschliste_new" href="https://hometrends.one/wunschliste/">Zur Wunschliste</a>
               <a class="boxWunschliste clside" role="button">Zurück</a>
