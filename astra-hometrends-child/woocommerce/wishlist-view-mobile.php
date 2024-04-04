@@ -46,6 +46,9 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 } // Exit if accessed directly
 ?>
 <!-- WISHLIST TABLE -->
+<link rel="stylesheet" href="https://interiortrends.de/wishlist-styles.css" />
+	<link rel="stylesheet" href="https://interiortrends.de/wishlist-css/wishlist-v2.css" />
+
 <table
 	class="shop_table cart wishlist_table wishlist_view traditional responsive <?php echo $no_interactions ? 'no-interactions' : ''; ?> <?php echo $enable_drag_n_drop ? 'sortable' : ''; ?> "
 	data-pagination="<?php echo esc_attr( $pagination ); ?>" data-per-page="<?php echo esc_attr( $per_page ); ?>" data-page="<?php echo esc_attr( $current_page ); ?>"
@@ -246,7 +249,9 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 								 * @return string
 								 */
 								?>
-								<a href="<?php echo esc_url( $item->get_remove_url() ); ?>" class="remove remove_from_wishlist" title="<?php echo esc_html( apply_filters( 'yith_wcwl_remove_product_wishlist_message_title', __( 'Remove this product', 'yith-woocommerce-wishlist' ) ) ); ?>">&times;</a>
+								<a href="<?php echo esc_url( $item->get_remove_url() ); ?>" class="remove remove_from_wishlist" title="<?php echo esc_html( apply_filters( 'yith_wcwl_remove_product_wishlist_message_title', __( 'Remove this product', 'yith-woocommerce-wishlist' ) ) ); ?>">
+									<img src="https://interiortrends.de/wp-content/uploads/2024/03/cross-btn2.svg">
+								</a>
 							</div>
 						</td>
 					<?php endif; ?>
@@ -295,7 +300,9 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 						?>
 
 						<a href="<?php echo esc_url( get_permalink( apply_filters( 'woocommerce_in_cart_product', $item->get_product_id() ) ) ); ?>">
-							<?php echo wp_kses_post( apply_filters( 'woocommerce_in_cartproduct_obj_title', $product->get_title(), $product ) ); ?>
+							<span class="wishlist-popup-product-title">
+								<?php echo wp_kses_post( apply_filters( 'woocommerce_in_cartproduct_obj_title', $product->get_title(), $product ) ); ?>
+							</span>
 						</a>
 
 						<?php
@@ -324,6 +331,8 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 
 					<?php if ( $show_price || $show_price_variations ) : ?>
 						<td class="product-price">
+							<div class="product-price-brand-container">
+
 							<?php
 							/**
 							 * DO_ACTION: yith_wcwl_table_before_product_price
@@ -366,7 +375,7 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 									echo '<div class="ht3-brandimg"><a href="' . $url . '"><img class="woocommerce-brand-image-single" width="50" src="'. $thumbnail . '"/></a></div>';
 								}
 							?>
-							
+							</div>
 						</td>
 					<?php endif ?>
 
@@ -550,43 +559,164 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 							global $wpdb;
 							$wishlist_ind = $wishlist['id'];
 							$wishlistold = $wpdb->get_results("SELECT * FROM ht3_yith_wcwl_wishlist WHERE (wishlist_id = '".$wishlist_ind."' AND product_id = '".$item->get_product_id()."')");
+							$wishlist_category_images = array( 
+								"Decor" =>  "https://interiortrends.de/wp-content/uploads/2024/03/decor.svg",
+								"Wohnzimmer" =>  "https://interiortrends.de/wp-content/uploads/2024/03/Wohnzimmer.svg",
+								"Badezimmer" =>  "https://interiortrends.de/wp-content/uploads/2024/03/Badezimmer.svg",
+								"Kinderzimmer" =>  "https://interiortrends.de/wp-content/uploads/2024/03/Kinderzimmer.svg",
+								"Schlafzimmer" =>  "https://interiortrends.de/wp-content/uploads/2024/03/Schlafzimmer.svg",
+								"Draußen" =>  "https://interiortrends.de/wp-content/uploads/2024/03/Draussen.svg",
+								"Küche" =>  "https://interiortrends.de/wp-content/uploads/2024/03/Kueche.svg"
+							);
+	
 							?> 
 							<?php if(!empty($wishlistold)){ if($wishlistold[0]->wishlist_name == 'Kinderzimmer'){ 'selected'; } } ?>
-								<select  class="change_wishlist_select<?php echo $wishlist['id'] ?> change-wishlists selectBox" product_id="<?php echo $item->get_product_id();  ?>" wishlist_id="<?php echo $wishlist['id'] ?>">
-									<option value="Dekorationen" <?php if(!empty($wishlistold)){ if($wishlistold[0]->wishlist_name == 'Dekorationen'){ echo 'selected'; } } ?>>Dekorationen</option>
-									<option value="Wohnzimmer" <?php if(!empty($wishlistold)){ if($wishlistold[0]->wishlist_name == 'Wohnzimmer'){ echo 'selected'; } } ?>>Wohnzimmer</option>
-									<option value="Badezimmer" <?php if(!empty($wishlistold)){ if($wishlistold[0]->wishlist_name == 'Badezimmer'){ echo 'selected'; } } ?>>Badezimmer</option>
-									<option value="Schlafzimmer" <?php if(!empty($wishlistold)){ if($wishlistold[0]->wishlist_name == 'Schlafzimmer'){ echo 'selected'; } } ?>>Schlafzimmer</option>
-									<option value="Kinderzimmer" <?php if(!empty($wishlistold)){ if($wishlistold[0]->wishlist_name == 'Kinderzimmer'){ echo 'selected'; } } ?>>Kinderzimmer</option>
-									<option value="Küche" <?php if(!empty($wishlistold)){ if($wishlistold[0]->wishlist_name == 'Küche'){ echo 'selected'; } } ?>>Küche</option> 
-									<option value="Draußen" <?php if(!empty($wishlistold)){ if($wishlistold[0]->wishlist_name == 'Draußen'){ echo 'selected'; } } ?>>Draußen</option>
-								</select>
-									<script type="text/javascript">
-										jQuery(document).ready(function($){
-										jQuery(".change_wishlist_select<?php echo $wishlist['id'] ?>").on('change', function(e){
-										   e.preventDefault();
-										   var currentwishlist = jQuery(this).val();
-										   var product_id = jQuery(this).attr('product_id');
-										   var user_id = <?php echo get_current_user_id(); ?>;
-										   var wishlist_id = jQuery(this).attr('wishlist_id');
-										   jQuery.ajax({
-											  url: "/wp-admin/admin-ajax.php",
-											  type:"POST",
-											  dataType:"type",
-											  data: {
-												 action:'change_wishlist_selected',
-												 wishlist:currentwishlist,
-												 product_id:product_id,
-												 user_id:user_id,
-												 wishlist_id:wishlist_id,
-											},   success: function(response){
-											   jQuery(".success_msg").css("display","block");
-											 }, error: function(data){
-												 jQuery(".error_msg").css("display","block");      }
-										   });
-										  });
-										});
-										</script>
+								
+<div class="custom-select-for-wishlist">
+<div class="wishlist-select-dropdown-button" onclick="toggleOptions(<?php echo $wishlist['id'] ?>,  <?php echo  $item->get_product_id() ?>)">
+    <div class="selected-options-container">
+		<div class="selected-option wishlist-popup-dropdown-selectedOption-mobile<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>" id="wishlist-popup-dropdown-selectedOption-mobile<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>">
+	<?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name !="Zimmer auswählen"): ?>
+		<img src="<?php echo $wishlist_category_images[$wishlistold[0]->wishlist_name]; ?>" alt="category image" height="30" width="30" data-bmid="9e32187c">
+	  <span class="selected-wiishlist-name"><?php echo $wishlistold[0]->wishlist_name; ?>
+		</span>
+    <?php else: ?>
+      <span class="selected-wiishlist-name" >Wunschliste auswählen</span>
+    <?php endif; ?>
+	</div>
+	</div>
+	<div class="wishlist-select-button-carret-container">
+		<img
+		src="https://interiortrends.de/wp-content/uploads/2024/03/caret.svg"
+		alt="caret svg"
+		data-bmid="9e32187c"
+		class="dropdown-caret"
+		/>
+	</div>
+  </div>
+  <div class="wishlist-dropdown-options">
+  <ul class="wishlist-select-dropdown-list underneath wishlist-dropdown-options-list-mobile<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>"  id="wishlist-dropdown-options-list-mobile<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>"  product_id="<?php echo $item->get_product_id();  ?>" wishlist_id="<?php echo $wishlist['id'] ?>">
+    <li class="dropdown-option" onclick="selectOption('Zimmer auswählen', <?php echo $wishlist['id'] ?>,  <?php echo  $item->get_product_id() ?>,'')" class="default-option" >Zimmer auswählen</li>
+    <li class="dropdown-option" onclick="selectOption('Decor', <?php echo $wishlist['id'] ?>,  <?php echo  $item->get_product_id() ?>, '<?php echo $wishlist_category_images['Decor']; ?>')" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Decor') echo 'class="selected"'; ?>>
+		<img src="https://interiortrends.de/wp-content/uploads/2024/03/decor.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+	Decor</li>
+    <li class="dropdown-option" onclick="selectOption('Wohnzimmer', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> , '<?php echo $wishlist_category_images['Wohnzimmer']; ?>')" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Wohnzimmer') echo 'class="selected"'; ?>>
+		<img src="https://interiortrends.de/wp-content/uploads/2024/03/Wohnzimmer.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+	Wohnzimmer</li>
+    <li class="dropdown-option" onclick="selectOption('Badezimmer', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> , '<?php echo $wishlist_category_images['Badezimmer']; ?>')" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Badezimmer') echo 'class="selected"'; ?>>
+		<img src="https://interiortrends.de/wp-content/uploads/2024/03/Badezimmer.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+	Badezimmer</li>
+    <li class="dropdown-option" onclick="selectOption('Kinderzimmer', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?>, '<?php echo $wishlist_category_images['Kinderzimmer']; ?>' )" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Kinderzimmer') echo 'class="selected"'; ?>>
+		<img src="https://interiortrends.de/wp-content/uploads/2024/03/Kinderzimmer.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+	Kinderzimmer</li>
+    <li class="dropdown-option" onclick="selectOption('Schlafzimmer', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> , '<?php echo $wishlist_category_images['Schlafzimmer']; ?>')" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Schlafzimmer') echo 'class="selected"'; ?>>
+		<img src="https://interiortrends.de/wp-content/uploads/2024/03/Schlafzimmer.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+	Schlafzimmer</li>
+    <li class="dropdown-option" onclick="selectOption('Draußen', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?>, '<?php echo $wishlist_category_images['Draußen']; ?>' )" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Draußen') echo 'class="selected"'; ?>>
+		<img src="https://interiortrends.de/wp-content/uploads/2024/03/Draussen.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+	Draußen</li>
+    <li class="dropdown-option" onclick="selectOption('Küche', <?php echo $wishlist['id']?> , <?php echo  $item->get_product_id() ?> , '<?php echo $wishlist_category_images['Küche']; ?>')" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Küche') echo 'class="selected"'; ?>>
+		<img src="https://interiortrends.de/wp-content/uploads/2024/03/Kueche.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
+	Küche</li>
+
+</ul>
+	</div>
+</div>
+<!-- <div class="success_msg" style="display:none;">Success Message</div>
+<div class="error_msg" style="display:none;">Error Message</div> -->
+
+<script type="text/javascript">
+  function toggleOptions(wishlistId, product_id) {
+    var optionsListArr = document.getElementsByClassName("wishlist-dropdown-options-list-mobile" + wishlistId+"#"+ product_id);
+    // optionsList.style.display = (!optionsList.style.display || optionsList.style.display === "block") ? "none" : "block";
+	console.log("inside toggle function")
+	for(let i=0;i<optionsListArr.length;i++){
+		let optionsList = optionsListArr[i];
+		optionsList.style.backrgoundColor = "black"
+
+
+		let dropdownButtonArr = document.getElementsByClassName(
+			"wishlist-popup-dropdown-selectedOption-mobile" + wishlistId + "#" + product_id
+		);
+
+				// Use `computedStyleMap` instead of just `style` to also pick values set through css
+				let display = optionsList
+					.computedStyleMap()
+					.get("display")
+					.toString();
+				let isDisplayed = !display || display === "block";
+
+				if (isDisplayed) {
+					let height = optionsList.scrollHeight;
+					optionsList.style.setProperty("--element-height", height);
+					optionsList.classList.add("closing");
+					setTimeout(() => {
+					optionsList.classList.remove("closing");
+					for(let j=0;j<dropdownButtonArr.length;j++){
+						let dropdownButton = dropdownButtonArr[j].parentElement.parentElement.parentElement;
+						dropdownButton.classList.remove("underneath");
+					}
+					optionsList.classList.remove("expanded", "underneath");
+					}, 300);
+				} else {
+					optionsList.classList.add("expanded", "underneath");
+					for(let j=0;j<dropdownButtonArr.length;j++){
+						let dropdownButton = dropdownButtonArr[j].parentElement.parentElement.parentElement;
+						dropdownButton.classList.add("underneath");
+					}
+				}
+	}
+  }
+
+  function selectOption(option, wishlistId, product_id, imageUrl) {
+	let dropdownButtonArr = document.getElementsByClassName(
+			"wishlist-popup-dropdown-selectedOption-mobile" + wishlistId + "#" + product_id
+	);
+	// selectedOption = document.getElementById("wishlist-popup-dropdown-selectedOption-mobile" + wishlistId+"#"+product_id);
+	for(let j=0;j<dropdownButtonArr.length;j++){
+		let selectedOption = dropdownButtonArr[j];
+		if(imageUrl){
+			selectedOption.innerHTML = '<img src="'+imageUrl+'" alt="category image" height="30" width="30">'
+										+'<span class="selected-wiishlist-name">'+option+'</span>';
+		} else {
+			selectedOption.innerHTML = '<span class="selected-wiishlist-name">'+option+'</span>';
+		}
+		toggleOptions(wishlistId, product_id);
+
+		// Additional functionality when an option is selected
+		// You can replace this with your logic to track changes
+		console.log("Selected wishlist " + wishlistId + ": " + option + " for product id "+product_id);
+
+	}
+    // If needed, update the value in the hidden input field
+    // document.getElementById("hiddenInput" + wishlistId).value = option;
+
+    // You can trigger your AJAX call here using the selected option and wishlistId
+	var currentwishlist = option
+	// var product_id = jQuery(this).parent().attr('product_id');
+	var user_id = <?php echo get_current_user_id(); ?>;
+	// var wishlist_id = jQuery(this).parent().attr('wishlist_id');
+	jQuery.ajax({
+		url: "<?php echo admin_url( 'admin-ajax.php' ); ?>",
+		type:"POST",
+		dataType:"type",
+		data: {
+			action:'change_wishlist_selected',
+			wishlist:currentwishlist,
+			product_id:product_id,
+			user_id:user_id,
+			wishlist_id:wishlistId,
+	},   success: function(response){
+		jQuery(".success_msg").css("display","block");
+		}, error: function(data){
+			jQuery(".error_msg").css("display","block");      }
+	});
+
+    // Show success or error message based on the AJAX response
+    // document.querySelector(".success_msg").style.display = "block"; // or hide the error_msg
+    // document.querySelector(".error_msg").style.display = "block"; // or hide the success_msg
+  }
+</script>
 							<?php if ( $move_to_another_wishlist && $available_multi_wishlist && count( $users_wishlists ) > 2 ) : ?>
 								<?php if ( 'select' === $move_to_another_wishlist_type ) : ?>
 
@@ -599,7 +729,7 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 											 * @var $wl \YITH_WCWL_Wishlist
 											 */
 											//if ( $wl->get_token() === $wishlist_token ) {
-											//	continue;
+												//	continue;
 											//}
 											?>
 											<!--option value="<?php echo esc_attr( $wl->get_token() ); ?>">
@@ -657,7 +787,11 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 								// print_r($item);
 								$met_product = get_post_meta($item->get_product_id() ,'_product_url',true); ?>
 								
-								<a href="<?php echo esc_url( $met_product ); ?>" class="remove_from_wishlistd button" title="<?php echo esc_html( apply_filters( 'yith_wcwl_remove_product_wishlist_message_title', __( 'Angebot Suchen', 'yith-woocommerce-wishlist' ) ) ); ?>"><?php esc_html_e( 'Angebot Suchen', 'yith-woocommerce-wishlist' ); ?></a>
+								<a href="<?php echo esc_url( $met_product ); ?>" class="search_for_now_wishlist_container" title="<?php echo esc_html( apply_filters( 'yith_wcwl_remove_product_wishlist_message_title', __( 'Angebot Suchen', 'yith-woocommerce-wishlist' ) ) ); ?>">
+										<div class="search_for_now_wishlist">
+											<?php esc_html_e( 'Angebot Suchen', 'yith-woocommerce-wishlist' ); ?>
+										</div>
+								</a>
 							<?php endif; ?>
 
 							<?php

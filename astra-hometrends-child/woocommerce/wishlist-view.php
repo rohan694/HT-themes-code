@@ -580,12 +580,12 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 <div class="wishlist-select-dropdown-button" onclick="toggleOptions(<?php echo $wishlist['id'] ?>,  <?php echo  $item->get_product_id() ?>)">
     <div class="selected-options-container">
 		<div class="selected-option" id="selectedOption<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>">
-	<?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name !="Select Wishlist"): ?>
+	<?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name !="Zimmer auswählen"): ?>
 		<img src="<?php echo $wishlist_category_images[$wishlistold[0]->wishlist_name]; ?>" alt="category image" height="30" width="30" data-bmid="9e32187c">
 	  <span class="selected-wiishlist-name"><?php echo $wishlistold[0]->wishlist_name; ?>
 		</span>
     <?php else: ?>
-      <span class="selected-wiishlist-name"  id="selectedOption<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>">Wunschliste auswählen</span>
+      <span class="selected-wiishlist-name">Wunschliste auswählen</span>
     <?php endif; ?>
 	</div>
 	</div>
@@ -600,7 +600,7 @@ if ( ! defined( 'YITH_WCWL' ) ) {
   </div>
   <div class="wishlist-dropdown-options">
   <ul class="wishlist-select-dropdown-list underneath"  id="optionsList<?php echo $wishlist['id'].'#'.$item->get_product_id(); ?>"  product_id="<?php echo $item->get_product_id();  ?>" wishlist_id="<?php echo $wishlist['id'] ?>">
-    <li class="dropdown-option" onclick="selectOption('Select Wishlist', <?php echo $wishlist['id'] ?>,  <?php echo  $item->get_product_id() ?>,'')" class="default-option" >Zimmer auswählen</li>
+    <li class="dropdown-option" onclick="selectOption('Zimmer auswählen', <?php echo $wishlist['id'] ?>,  <?php echo  $item->get_product_id() ?>,'')" class="default-option" >Zimmer auswählen</li>
     <li class="dropdown-option" onclick="selectOption('Decor', <?php echo $wishlist['id'] ?>,  <?php echo  $item->get_product_id() ?>, '<?php echo $wishlist_category_images['Decor']; ?>')" <?php if(!empty($wishlistold) && $wishlistold[0]->wishlist_name == 'Decor') echo 'class="selected"'; ?>>
 		<img src="https://interiortrends.de/wp-content/uploads/2024/03/decor.svg" alt="category image" height="30" width="30" data-bmid="9e32187c">
 	Decor</li>
@@ -811,7 +811,11 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 								 */
 								// print_r($item);
 								$met_product = get_post_meta($item->get_product_id() ,'_product_url',true); ?>
-									<a href="<?php echo esc_url( $met_product ); ?>" class="search_for_now_wishlist_container" title="<?php echo esc_html( apply_filters( 'yith_wcwl_remove_product_wishlist_message_title', __( 'Angebot Suchen', 'yith-woocommerce-wishlist' ) ) ); ?>"><?php esc_html_e( 'Angebot Suchen', 'yith-woocommerce-wishlist' ); ?></a>
+									<a href="<?php echo esc_url( $met_product ); ?>" class="search_for_now_wishlist_container" title="<?php echo esc_html( apply_filters( 'yith_wcwl_remove_product_wishlist_message_title', __( 'Angebot Suchen', 'yith-woocommerce-wishlist' ) ) ); ?>">
+										<div class="search_for_now_wishlist">
+											<?php esc_html_e( 'Angebot Suchen', 'yith-woocommerce-wishlist' ); ?>
+										</div>
+								</a>
 							<?php endif; ?>
 
 							<?php

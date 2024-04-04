@@ -171,18 +171,16 @@ function wishlist_add_short()
   <div class="opabg"></div>
         <div class="menu-wishlist">
         <div class="heading_section">
-          <div class="wishlist_heading_title">
-        Wunschliste
-        </div>
-        <div class="wishlist_popup_close_btn_container">
-        <div class="wishlist_popup_close_btn">
+            <div class="wishlist_heading_title">
+          Wunschliste
+          </div>
+          <div class="wishlist_popup_close_btn">
 
-          <a class="btn menu-click">
-          <img src="https://interiortrends.de/wishlist-css/images/cross-btn.svg">
-          </a>
+            <a class="btn menu-click">
+            <img src="https://interiortrends.de/wishlist-css/images/cross-btn.svg">
+            </a>
           </div>
-          </div>
-          </div>
+        </div>
       <div class="abox">
             [yith_wcwl_wishlist]
           </div>
@@ -201,6 +199,10 @@ function wishlist_add_short()
 }
 .wishlist_popup_close_btn img{
   height : 100%;
+  vertical-align: baseline;
+  width: 1.5rem;
+  height: 1.5rem;
+
 }
 
 .wishlist_popup_close_btn> a.btn.menu-click{
@@ -213,11 +215,12 @@ function wishlist_add_short()
 }
         .wishlist_heading_title{
           color: #155252;
-          font-size: 28px;
+          font-size: 1.5rem;
           font-family: Nunito;
           font-weight: 700;
-          line-height: 28px;
+          line-height: 100%;
           word-wrap: break-word;
+          flex: 0.95;
         }
   .wishlist-items-wrapper .woocommerce-Price-amount.amount {
     text-align: right;
@@ -327,11 +330,11 @@ a.btn.menu-click {
   padding: 0;
 }
 .menu-wishlist ul li:first-child {
-  border-top: 1px solid #008bad;
+  border-top: none;
 }
 .menu-wishlist ul li {
   color: #fff;
-  border-bottom: 1px solid #008bad;
+  border-bottom: none;
   list-style: none;
   margin-left: 0;
   padding-left: 0;
@@ -590,6 +593,7 @@ table.wishlist_table tr>td.product-add-to-cart {
   width: 80% !important;
   max-width: 100% !important;
   align-items: center;
+  padding: 0px !important;
   padding-top: 11px !important;
   display: flex;
   align-items: flex-start;
@@ -606,7 +610,6 @@ table.wishlist_table tr>td.product-add-to-cart {
   // margin-bottom: 20px;
   justify-content: flex-start;
   align-items: center;
-  gap: 266px;
   display: inline-flex;
 }
 
@@ -620,29 +623,6 @@ table.wishlist_table tr td {
   text-decoration: none !important;
 }
 
-.wishlist_table .product-add-to-cart .search_for_now_wishlist_container{
-  width: 80%;
-  display: flex !important;
-  padding: 6px 12px !important;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  border-radius: 30px;
-  border: 1px solid #155252 !important;
-  background: #155252;
-
-  color: white;
-  font-size: 10px;
-  font-family: Lato;
-  font-weight: 500;
-  line-height: 12px;
-  word-wrap: break-word;
-  margin: 0px !important;
-}
-.wishlist_table .product-add-to-cart .search_for_now_wishlist_container:hover{
-  color: #155259 !important;
-  background: white;
-}
 .cont {
   position: absolute;
   top: 0;
@@ -822,16 +802,16 @@ p.totlapffsdfsfs
   width: 100%;
   margin-top: 14px;
 }
-.menu-wishlist ul li {
-  border-bottom: 2px solid #d5d5d5;
-}
+// .menu-wishlist ul li {
+//   border-bottom: none;
+// }
 .menu-wishlist.open .abox {
   padding: 0px 15px;
 }
-.menu-wishlist.open ul li:first-child {
-  border-top: 1px solid #008bad;
-  border-top: none;
-}
+// .menu-wishlist.open ul li:first-child {
+//   border-top: 1px solid #008bad;
+//   border-top: none;
+// }
 .menu-wishlist.open ul li {
   position: relative;
 }
@@ -1038,7 +1018,7 @@ if (!function_exists('yith_wcwl_items_total')) {
         <div class="wishlist-popup-total-amount">' . wc_price($total) . '</div>
       </div>
           <div class="btnboxcart">
-              <a class="boxWunschliste_new" href="https://hometrends.one/wunschliste/">Zur Wunschliste</a>
+              <a class="boxWunschliste_new" href="https://interiortrends.de/wunschliste/">Zur Wunschliste</a>
               <a class="boxWunschliste clside" role="button">Zurück</a>
           </div>
           </div>';
