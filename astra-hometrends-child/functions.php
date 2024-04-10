@@ -17,6 +17,32 @@ define('CHILD_THEME_ASTRA_HOMETRENDS_VERSION', '1.0.0');
 /**
  * Enqueue styles
  */
+
+ function store_logs($keyword, $body) {
+  // Your API endpoint URL
+  $api_url = 'https://bafana-backend.azurewebsites.net/api/admin/storeLogs';
+
+  // $json_data = json_encode($body);
+  $body["keyword"]= $keyword;
+  // Make a POST request to the API endpoint
+  $response = wp_remote_post($api_url, array(
+      'body' => $body,
+      'timeout' => 30,
+      'sslverify' => false, // Change to true if you have valid SSL certificate
+  ));
+
+  // Check if API call was successful
+  if (is_wp_error($response)) {
+      $error_message = $response->get_error_message();
+      // Handle error if needed
+  } else {
+      // API call was successful
+      $response_body = wp_remote_retrieve_body($response);
+      // Handle API response if needed
+  }
+}
+
+
 function child_enqueue_styles()
 {
 
@@ -1195,6 +1221,183 @@ function add_file_types_to_uploads($file_types)
   return $file_types;
 }
 add_filter('upload_mimes', 'add_file_types_to_uploads');
+// Define a function to fetch color from product variations
+function get_product_variation_color($product_id) {
+  // Get product variations
+  $product_variations = new WC_Product_Variable($product_id);
+  $variations = $product_variations->get_available_variations();
+
+  // Initialize an empty array to store colors
+  $colors = array();
+
+  // Loop through each variation
+  foreach ($variations as $variation) {
+      // Get variation attributes
+      $attributes = $variation['attributes'];
+
+      // Check if the variation has a color attribute
+      if (isset($attributes['attribute_pa_color'])) {
+          // Get the color value
+          $color = get_term_by('slug', $attributes['attribute_pa_color'], 'pa_color');
+
+          // Check if color exists and add it to the colors array
+          if ($color) {
+              $colors[] = $color->name;
+          }
+      }
+  }
+
+  // Return unique colors
+  return array_unique($colors);
+}
+
+
+// Define a function to call the Add Product API
+function call_add_product_api_after_product_upload($product_id) {
+  // Your API endpoint URL
+  $api_url = 'https://collov.ai/flair/enterpriseApi/goods/save';
+  // Set API key
+  $api_key = 'ck_346320B5A723D6D4E1D82757DDB2D436';
+
+  // Get product details from WooCommerce database
+  $product = wc_get_product($product_id);
+  $brands = wp_get_post_terms($product_id, 'product_brand');
+  $brand_name = "";
+  if (!empty($brands)) {
+    $brand = $brands[0];
+    $brand_name = $brand->name;
+  }
+
+  
+  // Prepare data to send to JavaScript
+  $data = array(
+    'product' => $product,
+  );
+
+  // Convert PHP array to JSON
+  $json_data = json_encode($data);
+
+  // Prepare data to send to API
+    $data = array(
+      'name' => $product->get_name(),
+      'sku' => $product->get_sku(),
+      'description' => $product->get_description(),
+      'priceCents' => $product->get_regular_price(),
+      'salePriceCents' => $product->get_sale_price(),
+      'weight' => $product->get_weight(),
+      'length' => $product->get_length(),
+      'width' => $product->get_width(),
+      'height' => $product->get_height(),
+      // 'categories' => wp_get_post_terms($product_id, 'product_cat', array('fields' => 'names')), // Example: Product categories
+      'tags' => wp_get_post_terms($product_id, 'product_tag', array('fields' => 'names')), // Example: Product tags
+
+      'brand' => $brand_name,
+      'link' => get_permalink($product_id), // Product link
+      // 'materials' => $product->get_attribute('materials'), // Product materials
+      // 'availability' => $product->get_attribute('availability'), // Product availability
+      // 'vendor' => $product->get_attribute('vendor'), // Product vendor
+      // 'vendorType' => $product->get_attribute('vendorType'), // Product vendorType
+      'color' => get_product_variation_color($product_id), // Product color
+      'imageUrl' => wp_get_attachment_url($product->get_image_id()), // Product image URL
+      'filePaths' => array(wp_get_attachment_url($product->get_image_id())), // Example: Product image file path
+      'notes' => 'some notes', // Add any notes if required
+  );
+
+  // Make a POST request to the API endpoint
+  $response1 = wp_remote_post($api_url, array(
+      'body' => $data,
+      'headers' => array(
+        'apiKey' => $api_key,
+      ),
+      'timeout' => 30,
+      'sslverify' => false, // Change to true if you have valid SSL certificate
+  ));
+  $logdata = array(
+    "productData" => $json_data,
+    "generated data" => $data,
+    "response" => $response1
+  );
+
+  // Check if API call was successful
+  if (is_wp_error($response1)) {
+      $error_message = $response1->get_error_message();
+      $logdata["error"] = $error_message;
+      // Handle error if needed
+  } else {
+      // API call was successful
+      $response_body = wp_remote_retrieve_body($response1);
+      $json_response = json_decode($response_body, true);
+        
+      // Store Collov product ID in WooCommerce product's metadata
+      if ($json_response && isset($json_response['success']) && $json_response['success'] === true && isset($json_response['data']['id'])) {
+          update_post_meta($product_id, 'collov_product_id', $json_response['data']['id']);
+      }
+
+      $logdata["responsebody"] = $response_body;
+
+      // Handle API response if needed
+  }
+
+  store_logs("rohanTestingAddProductAPIfinaltest", $logdata);
+
+}
+
+
+// Hook to delete product from Collov when it gets deleted in WooCommerce
+add_action('before_delete_post', 'delete_product_from_collov');
+
+function delete_product_from_collov($product_id) {
+    // Get Collov product ID from product's metadata
+    $collov_product_id = get_post_meta($product_id, 'collov_product_id', true);
+    
+    if ($collov_product_id) {
+        // Make a DELETE request to the Collov delete API endpoint
+        $api_key = 'ck_346320B5A723D6D4E1D82757DDB2D436';
+        $deleteapi_url = 'https://collov.ai/flair/enterpriseApi/goods/batchDelete';
+        $data = array(
+          "ids" => $collov_product_id
+        );        
+        $response = wp_remote_post($deleteapi_url, array(
+          'body' => $data,
+          'headers' => array(
+            'apiKey' => $api_key,
+          ),
+          'timeout' => 30,
+          'sslverify' => false, // Change to true if you have valid SSL certificate
+      ));
+      $logdata = array(
+        "productData" => $json_data,
+        "generated data" => $data,
+        "response" => $response
+      );
+    
+    
+        // Handle response if needed
+        if (is_wp_error($response)) {
+            $error_message = $response->get_error_message();
+            $logdata["error"] = $error_message;
+
+            // Handle error if needed
+        } else {
+            $response_body = wp_remote_retrieve_body($response);
+            $logdata["responsebody"] = $response_body;
+            // Handle API response if needed
+        }
+        store_logs("rohanTestingAddProductAPIfinaltest", $logdata);
+
+    } else{
+        $logdata = array(
+          "collov_product_id" => $collov_product_id,
+          "generated data" => $data,
+          "response" => $response
+        );
+
+        store_logs("rohanTestingAddProductAPIfinaltest", $logdata);
+    }
+}
+
+// Hook our function to run after a new product is added
+add_action('woocommerce_new_product', 'call_add_product_api_after_product_upload', 10, 1);
 
 
 remove_action('wp_footer', array('Astra_Woocommerce', 'single_product_sticky_add_to_cart'), 10);
@@ -1280,16 +1483,19 @@ function single_product_sticky_add_to_cart_child()
 if (!empty($brands)) {
   $brand = $brands[0];
   $brand_json = json_encode($brand);
+  $product_array = (array) $product;
 
-  // Correctly formatted JavaScript for outputting brand details
-  echo "<script>";
-  echo "console.log('Brand Object:', " . $brand_json . ");";
-
+  // Encode product array to JSON
+  $product_json = json_encode($product_array);
+    // Correctly formatted JavaScript for outputting brand details
+  // echo "<script>";
+  // echo "console.log('Brand Object:', " . $brand_json . ");";
+  // echo "console.log('product data:',". $product_json.");";
   // Assuming get_brand_thumbnail_url returns the correct URL
   $thumbnail = get_brand_thumbnail_url($brand->term_id); // Correct variable name used
   // Ensure the string is correctly formatted for JavaScript
-  echo "console.log('Thumbnail URL:', '" . esc_js($thumbnail) . "');";
-  echo "</script>";
+  // echo "console.log('Thumbnail URL:', '" . esc_js($thumbnail) . "');";
+  // echo "</script>";
 
   $url = get_term_link($brand->slug, 'product_brand');
 
