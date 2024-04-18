@@ -45,7 +45,7 @@ if ( ! defined( 'YITH_WCWL' ) ) {
 	exit;
 } // Exit if accessed directly
 ?>
-    <link rel="stylesheet" href="https://interiortrends.de/wishlist-styles.css" />
+    <link rel="stylesheet" href="https://interiortrends.de/wishlist-css/wishlist-styles.css" />
 	<link rel="stylesheet" href="https://interiortrends.de/wishlist-css/wishlist-v2.css" />
 <!-- WISHLIST TABLE -->
 <table
